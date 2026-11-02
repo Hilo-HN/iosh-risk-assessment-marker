@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IOSH Risk Assessment Marker</title>
+  <meta name="description" content="IOSH Managing Safely risk assessment marking webpage using a fixed 5x5 matrix and trainer rules." />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>IOSH Risk Assessment Marker</h1>
+      <p>Upload a PDF or Word file and receive criterion-by-criterion IOSH-style marking.</p>
+    </div>
+    <span class="badge">5×5 Matrix • 38 Marks</span>
+  </header>
+
+  <main class="layout">
+    <section class="panel main-panel">
+      <div class="section-heading">
+        <div>
+          <h2>1. Upload assessment</h2>
+          <p>PDF and DOCX are supported. Searchable PDFs work best.</p>
+        </div>
+      </div>
+
+      <label class="dropzone" id="dropzone">
+        <input id="fileInput" type="file" accept=".pdf,.docx" />
+        <strong>Choose PDF or Word file</strong>
+        <span id="fileName">No file selected</span>
+      </label>
+
+      <div class="options-grid">
+        <label>
+          <span>Model</span>
+          <select id="modelSelect">
+            <option value="gpt-6.1-sol" selected>GPT-6.1 Sol</option>
+            <option value="gpt-6-astra">GPT-6 Astra</option>
+            <option value="gpt-6.1-terra">GPT-6.1 Terra</option>
+          </select>
+        </label>
+
+        <label class="checkbox-row">
+          <input id="wholeRowRule" type="checkbox" checked />
+          <span>Apply whole-row logical-flow rule when a row fundamentally mixes unrelated hazards.</span>
+        </label>
+      </div>
+
+      <details>
+        <summary>Preview extracted assessment text</summary>
+        <pre id="extractedPreview">Upload a file to preview extracted text.</pre>
+      </details>
+
+      <button id="markBtn" class="primary" disabled>Evaluate and mark</button>
+
+      <div id="status" class="status hidden"></div>
+
+      <section id="resultSection" class="result hidden">
+        <div class="result-header">
+          <div>
+            <h2>Marking result</h2>
+            <p id="resultFile"></p>
+          </div>
+          <button id="downloadBtn" class="secondary">Download report</button>
+        </div>
+        <div id="report" class="report"></div>
+      </section>
+    </section>
+
+    <aside class="panel side-panel">
+      <h2>IOSH 5×5 matrix</h2>
+
+      <div class="matrix-block">
+        <h3>Likelihood</h3>
+        <ol reversed start="5">
+          <li><b>5</b> – Very likely</li>
+          <li><b>4</b> – Likely</li>
+          <li><b>3</b> – Fairly likely</li>
+          <li><b>2</b> – Unlikely</li>
+          <li><b>1</b> – Very unlikely</li>
+        </ol>
+      </div>
+
+      <div class="matrix-block">
+        <h3>Consequence</h3>
+        <ol reversed start="5">
+          <li><b>5</b> – Catastrophic</li>
+          <li><b>4</b> – Major</li>
+          <li><b>3</b> – Moderate</li>
+          <li><b>2</b> – Minor</li>
+          <li><b>1</b> – Insignificant</li>
+        </ol>
+      </div>
+
+      <div class="bands">
+        <div class="band stop"><b>20–25</b><span>STOP</span></div>
+        <div class="band urgent"><b>15–16</b><span>Urgent action</span></div>
+        <div class="band action"><b>8–12</b><span>Action</span></div>
+        <div class="band monitor"><b>3–6</b><span>Monitor</span></div>
+        <div class="band noaction"><b>1–2</b><span>No action</span></div>
+      </div>
+
+      <hr />
+
+      <h2>Reviewer learning</h2>
+      <p class="small">Add permanent trainer corrections. They are stored in this browser and included in future marking.</p>
+      <textarea id="ruleInput" rows="5" placeholder="Example: Award 'How harmed?' only when both the hazardous event and the consequence are stated."></textarea>
+      <button id="saveRuleBtn" class="secondary full">Save rule</button>
+      <div id="ruleList" class="rule-list"></div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Criteria-based trainer support. This webpage does not claim to provide official IOSH marking.</p>
+  </footer>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

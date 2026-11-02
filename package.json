@@ -1,0 +1,9 @@
+{
+  "name": "iosh-risk-assessment-marker-webpage",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "openai": "^6.6.0"
+  }
+}
